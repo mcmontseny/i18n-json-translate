@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function Dropdown({ langs, selectedLang, onChangeLang }) {
-  const DEFAULT_OPTION = 'Select';
+  const DEFAULT_OPTION = 'Choose';
   const [state, setDropdownState] = useState(false);
   const handleClickLang = (lang) => {
     setDropdownState(!state);
@@ -44,17 +44,18 @@ export default function Dropdown({ langs, selectedLang, onChangeLang }) {
           >
             <div className="py-1" role="none">
               {langs.map((lang, index) => (
-                <span
-                  key={index}
-                  onClick={() => handleClickLang(lang)}
-                  className={`text-gray-700 block px-4 py-2 text-sm ${
-                    lang.value !== selectedLang?.value
-                      ? "hover:bg-gray-100"
-                      : ""
-                  } ${lang.value === selectedLang?.value ? "bg-gray-300" : ""}`}
-                >
-                  {lang.key}
-                </span>
+                <div className={`flex flex-row px-4 py-2 space-x-2 items-center cursor-pointer ${lang.value !== selectedLang?.value
+                  ? "hover:bg-gray-100"
+                  : ""
+                } ${lang.value === selectedLang?.value ? "bg-gray-300" : ""}`} onClick={() => handleClickLang(lang)}>
+                  { !lang.value && <img src="./red_bin.png" className="h-4" /> }
+                  <span
+                    key={index}
+                    className={`text-gray-700 block text-sm  ${!lang.value ? 'text-red-500' : ''}`}
+                  >
+                    {lang.key}
+                  </span>
+                </div>
               ))}
             </div>
           </div>
