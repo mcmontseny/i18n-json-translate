@@ -23,10 +23,8 @@ function App() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <div className="flex flex-col space-y-10 flex-1 bg-white p-6 md:px-20 lg:px-44">
-        <h1 className="text-black font-bold text-3xl text-center">
-          Translate i18n JSON File
-        </h1>
+      <div className="flex flex-col space-y-10 flex-1 bg-white p-6 py-10 md:px-20 lg:px-44">
+        
         <div className="flex flex-col space-y-10 justify-around xl:flex-row  xl:space-y-0  xl:space-x-32 flex-1">
           <TranslateBox
             title="Translate from:"
