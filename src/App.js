@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import TranslateBox from "./components/TranslateBox";
+import Loader from "./components/Loader";
 
 function App() {
   const API_USERNAME = process.env.REACT_APP_API_USERNAME
@@ -22,6 +23,7 @@ function App() {
   const [toLanguage, setToLang] = useState(null);
   const [inputText, setInputText] = useState('');
   const [outputText, setOutputText] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const translateJSON = async () => {
     if (!inputText) {
@@ -31,6 +33,11 @@ function App() {
 
     if (!chkTextIsValid()) {
       alert('Source text is not a valid JSON Object');
+      return;
+    }
+
+    if (!chkLanguagesSelected()) {
+      alert('Please select both languages ​​for translation');
       return;
     }
 
@@ -50,6 +57,8 @@ function App() {
     } catch (e) { return false; }
   };
 
+  const chkLanguagesSelected = () => { return fromLanguage && toLanguage }
+
   const getAPITranslation = (word) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -63,6 +72,8 @@ function App() {
           "dest": toLanguage.value
         };
 
+        setLoading(true);
+        
         const response = await fetch(API_TRANSLATE_URL, {method: "POST", body: JSON.stringify(body), headers})
           .then((response) => response.json())
           .catch((err) => {
@@ -77,12 +88,14 @@ function App() {
     });
   }
 
-  const setTranslation = (translatedJSON) => setOutputText(JSON.stringify(translatedJSON));
-
-
+  const setTranslation = (translatedJSON) => {
+    setOutputText(JSON.stringify(translatedJSON));
+    setLoading(false);
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
+      <Loader loading={loading} />
       <Header />
       <div className="flex flex-col space-y-10 flex-1 bg-white p-6 py-10 md:px-20 lg:px-44">
 
