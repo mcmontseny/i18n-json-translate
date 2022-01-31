@@ -25,7 +25,7 @@ export default function TranslateBox({
       onChange={(event) => onChangeText(event.target.value)} 
       defaultValue={text} 
       placeholder={placeholder}
-      className="p-6 h-full bg-[#f3f3f3] shadow-lg rounded-lg border-solid border-2 border-gray-200">
+      className="p-6 h-full bg-[#f3f3f3] shadow-lg rounded-lg border-solid border-2 border-gray-200 focus:outline-gray-400">
       </textarea>
     </div>
   );

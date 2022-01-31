@@ -1,12 +1,33 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Dropdown({ langs, selectedLang, onChangeLang }) {
+  const ref = useRef();
+
   const DEFAULT_OPTION = 'Choose';
+
   const [state, setDropdownState] = useState(false);
+  
   const handleClickLang = (lang) => {
     setDropdownState(!state);
     onChangeLang(lang.value ? lang : null);
   };
+
+  useEffect(() => {
+    const checkIfClickedOutside = e => {
+      // If the dropdown is open and the clicked target is not within the dropdows,
+      // then close the menu
+      if (state && ref.current && !ref.current.contains(e.target)) {
+        setDropdownState(false);
+      }
+    }
+
+    document.addEventListener("mousedown", checkIfClickedOutside);
+
+    return () => {
+      // Cleanup the event listener
+      document.removeEventListener("mousedown", checkIfClickedOutside);
+    }
+  }, [state]);
 
   return (
     <>
@@ -37,6 +58,7 @@ export default function Dropdown({ langs, selectedLang, onChangeLang }) {
 
         {state && (
           <div
+          ref={ref}
             className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
             role="menu"
             aria-orientation="vertical"
