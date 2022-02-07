@@ -7,7 +7,7 @@ import Loader from "./components/Loader";
 function App() {
   const API_USERNAME = process.env.REACT_APP_API_USERNAME
   const API_PASSWORD = process.env.REACT_APP_API_PASSWORD;
-  
+
   const langs = [
     { key: "Spanish", value: "es" },
     { key: "English", value: "en" },
@@ -43,11 +43,20 @@ function App() {
 
     const translatedObject = JSON.parse(inputText);
 
-    for (const [key, value] of Object.entries(translatedObject)) {
-      translatedObject[key] = await getAPITranslation(value);
-    }
+    await translateObj(translatedObject);
 
     setTranslation(translatedObject);
+  };
+
+
+  const translateObj = async (obj) => {
+    for (const [key, value] of Object.entries(obj)) {
+      if (typeof obj[key] === 'string') {
+        obj[key] = await getAPITranslation(value);
+      } else {
+        await translateObj(value);
+      }
+    }
   };
 
   const chkTextIsValid = () => {
@@ -73,8 +82,8 @@ function App() {
         };
 
         setLoading(true);
-        
-        const response = await fetch(API_TRANSLATE_URL, {method: "POST", body: JSON.stringify(body), headers})
+
+        const response = await fetch(API_TRANSLATE_URL, { method: "POST", body: JSON.stringify(body), headers })
           .then((response) => response.json())
           .catch((err) => {
             console.log("Error Failed to get translation", err);
@@ -129,19 +138,5 @@ function App() {
     </div>
   );
 }
-
-// {
-//   "lazy": {
-//       "title": "Angular l10n lazy loading",
-//       "title": "Angular l10n lazy loading",
-//       "title": "Angular l10n lazy loading",
-//       "title": "Angular l10n lazy loading",
-//       "title": "Angular l10n lazy loading",
-//       "title": "Angular l10n lazy loading",
-//       "title": "Angular l10n lazy loading",
-//       "title": "Angular l10n lazy loading",
-//       "title": "Angular l10n lazy loading"
-//   }
-// }
 
 export default App;
