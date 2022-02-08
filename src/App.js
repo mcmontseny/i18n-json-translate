@@ -41,11 +41,12 @@ function App() {
       return;
     }
 
-    const translatedObject = JSON.parse(inputText);
-
-    await translateObj(translatedObject);
+    const translatedObject = await translateObj(JSON.parse(inputText));
 
     setTranslation(translatedObject);
+
+    // Beautify input JSON Obj
+    setInputText(getJSONBeautify(inputText));
   };
 
 
@@ -98,9 +99,11 @@ function App() {
   }
 
   const setTranslation = (translatedJSON) => {
-    setOutputText(JSON.stringify(translatedJSON));
+    setOutputText(getJSONBeautify(translatedJSON));
     setLoading(false);
   };
+
+  const getJSONBeautify = (json) => JSON.stringify(json, null, 2);
 
   return (
     <div className="flex flex-col min-h-screen">

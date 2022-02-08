@@ -69,10 +69,9 @@ export default function Dropdown({ langs, selectedLang, onChangeLang }) {
                 <div className={`flex flex-row px-4 py-2 space-x-2 items-center cursor-pointer ${lang.value !== selectedLang?.value
                   ? "hover:bg-gray-100"
                   : ""
-                } ${lang.value === selectedLang?.value ? "bg-gray-300" : ""}`} onClick={() => handleClickLang(lang)}>
+                } ${lang.value === selectedLang?.value ? "bg-gray-300" : ""}`}  key={index} onClick={() => handleClickLang(lang)}>
                   { !lang.value && <img src="./red_bin.png" className="h-4" /> }
                   <span
-                    key={index}
                     className={`text-gray-700 block text-sm  ${!lang.value ? 'text-red-500' : ''}`}
                   >
                     {lang.key}
